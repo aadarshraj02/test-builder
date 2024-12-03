@@ -37,7 +37,7 @@ const Home = () => {
           <img src="./test.png" className="w-full" />
         </div>
       </div>
-      <div className="w-full flex items-center justify-center mt-10 gap-20">
+      <div className="w-full flex items-center justify-center md:mt-10 gap-20">
         <button
           onClick={handleCreateTest}
           className="bg-black text-white px-5 py-2 rounded-full"
