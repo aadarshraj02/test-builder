@@ -14,7 +14,7 @@ const Sidenav = () => {
       <div
         className={`${
           isOpen ? "translate-x-0" : "-translate-x-full"
-        } lg:translate-x-0 fixed lg:static inset-0 bg-zinc-900 text-white w-64 h-screen transition-transform duration-300 ease-in-out`}
+        } lg:translate-x-0 fixed lg:static inset-0 bg-zinc-900 text-white w-64 min-h-screen transition-transform duration-300 ease-in-out`}
       >
         <div className="flex items-center justify-between p-5">
           <button
