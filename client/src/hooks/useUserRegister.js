@@ -1,7 +1,7 @@
-import { useState } from "react";
 import axios from "axios";
+import { useState } from "react";
 
-const useSignup = () => {
+const useUserRegister = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -10,10 +10,10 @@ const useSignup = () => {
     setError(null);
 
     try {
-      const response =
-        (await axios.post) <
-        SignupResponse >
-        (`${import.meta.env.VITE_BASE_URL}/api/users/register`, newUser);
+      const response = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/api/users/register`,
+        newUser
+      );
 
       setLoading(false);
       return response.data;
@@ -27,4 +27,4 @@ const useSignup = () => {
   return { signup, loading, error };
 };
 
-export default useSignup;
+export default useUserRegister;

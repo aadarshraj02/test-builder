@@ -1,14 +1,14 @@
 import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UserDataContext } from "../context/UserContext";
-import useSignup from "../hooks/useUserRegister";
+import useUserRegister from "../hooks/useUserRegister";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const { signup, loading, error } = useSignup();
+  const { signup, loading, error } = useUserRegister();
 
   const navigate = useNavigate();
   const { setUser } = useContext(UserDataContext);
@@ -29,7 +29,7 @@ const Signup = () => {
       const data = await signup(newUser);
       setUser(data.user);
       localStorage.setItem("token", data.token);
-      navigate("/home");
+      navigate("/");
 
       setFirstName("");
       setLastName("");

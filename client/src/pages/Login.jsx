@@ -20,7 +20,7 @@ const Login = () => {
       const data = await login({ email, password });
       setUser(data.user);
       localStorage.setItem("token", data.token);
-      navigate("/home");
+      navigate("/");
       setEmail("");
       setPassword("");
     } catch (err) {
