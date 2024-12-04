@@ -1,3 +1,6 @@
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import Categorize from "../components/Categorize Question/Categorize";
 import Navbar from "../components/Navbar";
 import Sidenav from "../components/Sidenav";
 
@@ -9,15 +12,15 @@ const CreateTest = () => {
         <div className="">
           <Sidenav />
         </div>
-        <div className="sm:px-20 px-5 py-10 flex justify-between w-full">
+        <div className="sm:px-20 px-5 py-10  w-full">
           <input
             type="text"
             placeholder="Test title"
-            className="sm:w-1/2  h-[40px] px-3 border-b border-b-zinc-400 outline-none"
+            className="sm:w-1/2 mb-5  h-[40px] px-3 border-b border-b-zinc-400 outline-none"
           />
-          <button className="bg-zinc-900 px-5 py-1 h-[40px] text-white rounded-full">
-            Save
-          </button>
+          <DndProvider backend={HTML5Backend}>
+            <Categorize />
+          </DndProvider>
         </div>
       </div>
     </div>
