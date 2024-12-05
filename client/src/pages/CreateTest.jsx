@@ -21,6 +21,11 @@ const CreateTest = () => {
           <Categorize />
           <Cloze />
           <Comprehension />
+          <div className="flex items-center justify-center">
+            <button className="bg-green-500 px-4 py-2 rounded-md text-white">
+              Save & Continue
+            </button>
+          </div>
         </div>
       </div>
     </div>
