@@ -1,8 +1,8 @@
-
 import Categorize from "../components/Categorize Question/Categorize";
 import Navbar from "../components/Navbar";
 import Sidenav from "../components/Sidenav";
 import Cloze from "../components/Cloze Question/Cloze";
+import Comprehension from "../components/Comprehension Question/Comprehension";
 
 const CreateTest = () => {
   return (
@@ -18,12 +18,9 @@ const CreateTest = () => {
             placeholder="Test title"
             className="sm:w-1/2 mb-5  h-[40px] px-3 border-b border-b-zinc-400 outline-none"
           />
-      
-            <Categorize />
-
-
-            <Cloze />
-      
+          <Categorize />
+          <Cloze />
+          <Comprehension />
         </div>
       </div>
     </div>
