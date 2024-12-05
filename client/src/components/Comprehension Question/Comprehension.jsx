@@ -1,54 +1,52 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { TestContext } from "../../context/TestContext";
 
 const Comprehension = () => {
-  const [questions, setQuestions] = useState([
-    {
+  const { testData, setTestData } = useContext(TestContext);
+
+  // Handle question updates
+  const handleQuestionChange = (id, text) => {
+    const updatedQuestions = testData.questions.map((q) =>
+      q.id === id ? { ...q, questionText: text } : q
+    );
+    setTestData({ ...testData, questions: updatedQuestions });
+  };
+
+  const handleOptionChange = (id, index, text) => {
+    const updatedQuestions = testData.questions.map((q) =>
+      q.id === id
+        ? {
+            ...q,
+            options: q.options.map((opt, i) => (i === index ? text : opt)),
+          }
+        : q
+    );
+    setTestData({ ...testData, questions: updatedQuestions });
+  };
+
+  const handleCorrectOption = (id, index) => {
+    const updatedQuestions = testData.questions.map((q) =>
+      q.id === id ? { ...q, correctOption: index } : q
+    );
+    setTestData({ ...testData, questions: updatedQuestions });
+  };
+
+  const addQuestion = () => {
+    const newQuestion = {
       id: Date.now(),
       questionText: "",
       options: ["", "", "", ""],
       correctOption: null,
-    },
-  ]);
-
-  const handleQuestionChange = (id, text) => {
-    setQuestions((prev) =>
-      prev.map((q) => (q.id === id ? { ...q, questionText: text } : q))
-    );
-  };
-
-  const handleOptionChange = (id, index, text) => {
-    setQuestions((prev) =>
-      prev.map((q) =>
-        q.id === id
-          ? {
-              ...q,
-              options: q.options.map((opt, i) => (i === index ? text : opt)),
-            }
-          : q
-      )
-    );
-  };
-
-  const handleCorrectOption = (id, index) => {
-    setQuestions((prev) =>
-      prev.map((q) => (q.id === id ? { ...q, correctOption: index } : q))
-    );
-  };
-
-  const addQuestion = () => {
-    setQuestions((prev) => [
-      ...prev,
-      {
-        id: Date.now(),
-        questionText: "",
-        options: ["", "", "", ""],
-        correctOption: null,
-      },
-    ]);
+    };
+    setTestData({
+      ...testData,
+      questions: [...testData.questions, newQuestion],
+    });
   };
 
   const deleteQuestion = (id) => {
-    setQuestions((prev) => prev.filter((q) => q.id !== id));
+    const updatedQuestions = testData.questions.filter((q) => q.id !== id);
+    setTestData({ ...testData, questions: updatedQuestions });
   };
 
   return (
@@ -69,7 +67,7 @@ const Comprehension = () => {
         />
         <p className="text-sm text-blue-600">Comprehension</p>
       </div>
-      {questions.map((question, qIndex) => (
+      {testData.questions.map((question, qIndex) => (
         <div key={question.id} className="border p-4 rounded-md mb-5">
           <div className="flex justify-between items-center">
             <h3 className="text-md font-medium">Question {qIndex + 1}</h3>

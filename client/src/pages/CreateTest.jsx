@@ -3,20 +3,28 @@ import Navbar from "../components/Navbar";
 import Sidenav from "../components/Sidenav";
 import Cloze from "../components/Cloze Question/Cloze";
 import Comprehension from "../components/Comprehension Question/Comprehension";
+import { useContext } from "react";
+import { TestContext } from "../context/TestContext";
 
 const CreateTest = () => {
+  const { testData, setTestData } = useContext(TestContext);
+
+  const handleTitleChange = (e) => {
+    setTestData({ ...testData, title: e.target.value });
+  };
+
   return (
     <div className="min-h-screen">
       <Navbar />
       <div className="flex">
-        <div className="">
-          <Sidenav />
-        </div>
-        <div className="sm:px-20 px-5 py-10  w-full">
+        <Sidenav />
+        <div className="sm:px-20 px-5 py-10 w-full">
           <input
             type="text"
             placeholder="Test title"
-            className="sm:w-1/2 mb-5  h-[40px] px-3 border-b border-b-zinc-400 outline-none"
+            value={testData.title}
+            onChange={handleTitleChange}
+            className="sm:w-1/2 mb-5 h-[40px] px-3 border-b border-b-zinc-400 outline-none"
           />
           <Categorize />
           <Cloze />

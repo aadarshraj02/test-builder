@@ -1,8 +1,25 @@
-import React from "react";
+import React, { useContext } from "react";
 import { HiSquares2X2 } from "react-icons/hi2";
 import { useDrag, useDrop } from "react-dnd";
+import { TestContext } from "../../context/TestContext";
 
-const Item = ({ item, index, moveItem, setItems, categories }) => {
+const Item = ({ item, index, moveItem, categories }) => {
+  const { setTestData, testData } = useContext(TestContext);
+
+  const handleItemChange = (e) => {
+    const updatedItems = testData.items.map((itm, i) =>
+      i === index ? { ...itm, value: e.target.value } : itm
+    );
+    setTestData({ ...testData, items: updatedItems });
+  };
+
+  const handleCategoryChange = (e) => {
+    const updatedItems = testData.items.map((itm, i) =>
+      i === index ? { ...itm, category: e.target.value } : itm
+    );
+    setTestData({ ...testData, items: updatedItems });
+  };
+
   const [, ref] = useDrag({
     type: "ITEM",
     item: { index },
@@ -31,24 +48,12 @@ const Item = ({ item, index, moveItem, setItems, categories }) => {
         type="text"
         placeholder={`Item ${index + 1}`}
         value={item.value}
-        onChange={(e) => {
-          setItems((prev) =>
-            prev.map((itm, i) =>
-              i === index ? { ...itm, value: e.target.value } : itm
-            )
-          );
-        }}
+        onChange={handleItemChange}
         className="border w-32 rounded-md outline-none px-2 py-1"
       />
       <select
         value={item.category}
-        onChange={(e) => {
-          setItems((prev) =>
-            prev.map((itm, i) =>
-              i === index ? { ...itm, category: e.target.value } : itm
-            )
-          );
-        }}
+        onChange={handleCategoryChange}
         className="border rounded-md px-2 py-1"
       >
         <option value="">Select Category</option>
@@ -60,7 +65,12 @@ const Item = ({ item, index, moveItem, setItems, categories }) => {
       </select>
       <button
         type="button"
-        onClick={() => setItems((prev) => prev.filter((_, i) => i !== index))}
+        onClick={() =>
+          setTestData({
+            ...testData,
+            items: testData.items.filter((_, i) => i !== index),
+          })
+        }
         className="text-red-500"
       >
         Remove

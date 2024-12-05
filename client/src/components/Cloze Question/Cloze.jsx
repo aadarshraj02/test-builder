@@ -1,31 +1,37 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
+import { TestContext } from "../../context/TestContext";
 import Item from "./Item";
 
 const Cloze = () => {
-  const [sentence, setSentence] = useState("");
-
-  const [items, setItems] = useState([]);
+  const { testData, setTestData } = useContext(TestContext);
 
   const handleUnderlineWord = () => {
     const selectedText = window.getSelection().toString();
-    if (selectedText && !items.includes(selectedText)) {
-      setItems([...items, selectedText]);
+    if (selectedText && !testData.items.includes(selectedText)) {
+      setTestData({
+        ...testData,
+        items: [...testData.items, selectedText],
+      });
     }
   };
 
   const moveItem = (fromIndex, toIndex) => {
-    const updatedItems = [...items];
+    const updatedItems = [...testData.items];
     const [movedItem] = updatedItems.splice(fromIndex, 1);
     updatedItems.splice(toIndex, 0, movedItem);
-    setItems(updatedItems);
+    setTestData({ ...testData, items: updatedItems });
   };
 
   const removeItem = (index) => {
-    setItems(items.filter((_, i) => i !== index));
+    const updatedItems = testData.items.filter((_, i) => i !== index);
+    setTestData({ ...testData, items: updatedItems });
   };
 
   const updateItem = (index, value) => {
-    setItems(items.map((item, i) => (i === index ? value : item)));
+    const updatedItems = testData.items.map((item, i) =>
+      i === index ? value : item
+    );
+    setTestData({ ...testData, items: updatedItems });
   };
 
   return (
@@ -43,8 +49,10 @@ const Cloze = () => {
         <input
           type="text"
           placeholder="Type your sentence here..."
-          value={sentence}
-          onChange={(e) => setSentence(e.target.value)}
+          value={testData.sentence}
+          onChange={(e) =>
+            setTestData({ ...testData, sentence: e.target.value })
+          }
           className="outline-none border px-2 py-1 rounded-sm w-full text-zinc-600"
         />
         <button
@@ -56,7 +64,7 @@ const Cloze = () => {
       </div>
       <div className="my-4">
         <h3 className="font-semibold">Items:</h3>
-        {items.map((item, index) => (
+        {testData.items.map((item, index) => (
           <Item
             key={index}
             item={item}

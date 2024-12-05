@@ -1,35 +1,36 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
+import { TestContext } from "../../context/TestContext";
 import CategoryList from "./CategoryList";
 import ItemList from "./ItemList";
 
 const Categorize = () => {
-  const [categories, setCategories] = useState([{ id: "cat-1", value: "" }]);
-  const [items, setItems] = useState([
-    { id: "item-1", value: "", category: "" },
-  ]);
+  const { testData, setTestData } = useContext(TestContext);
+  const { categories, items } = testData;
 
   const moveCategory = (draggedIndex, hoverIndex) => {
     const updatedCategories = [...categories];
     const [draggedCategory] = updatedCategories.splice(draggedIndex, 1);
     updatedCategories.splice(hoverIndex, 0, draggedCategory);
-    setCategories(updatedCategories);
+    setTestData({ ...testData, categories: updatedCategories });
   };
 
   const moveItem = (draggedIndex, hoverIndex) => {
     const updatedItems = [...items];
     const [draggedItem] = updatedItems.splice(draggedIndex, 1);
     updatedItems.splice(hoverIndex, 0, draggedItem);
-    setItems(updatedItems);
+    setTestData({ ...testData, items: updatedItems });
   };
 
   const addNewQuestion = () => {
-    setCategories([{ id: `cat-1`, value: "" }]);
-    setItems([{ id: "item-1", value: "", category: "" }]);
+    setTestData({
+      ...testData,
+      categories: [{ id: `cat-1`, value: "" }],
+      items: [{ id: "item-1", value: "", category: "" }],
+    });
   };
 
   const deleteQuestion = () => {
-    setCategories([]);
-    setItems([]);
+    setTestData({ ...testData, categories: [], items: [] });
   };
 
   return (
@@ -52,58 +53,39 @@ const Categorize = () => {
         <p className="text-sm text-blue-600">categorize</p>
       </div>
 
-      <CategoryList
-        categories={categories}
-        setCategories={setCategories}
-        moveCategory={moveCategory}
-      />
+      <CategoryList categories={categories} moveCategory={moveCategory} />
       <button
         type="button"
         onClick={() =>
-          setCategories([
-            ...categories,
-            { id: `cat-${categories.length + 1}`, value: "" },
-          ])
+          setTestData({
+            ...testData,
+            categories: [
+              ...categories,
+              { id: `cat-${categories.length + 1}`, value: "" },
+            ],
+          })
         }
         className="text-blue-500 mt-2"
       >
         + Add Category
       </button>
 
-      <ItemList
-        items={items}
-        setItems={setItems}
-        moveItem={moveItem}
-        categories={categories}
-      />
+      <ItemList items={items} moveItem={moveItem} categories={categories} />
       <button
         type="button"
         onClick={() =>
-          setItems([
-            ...items,
-            { id: `item-${items.length + 1}`, value: "", category: "" },
-          ])
+          setTestData({
+            ...testData,
+            items: [
+              ...items,
+              { id: `item-${items.length + 1}`, value: "", category: "" },
+            ],
+          })
         }
         className="text-blue-500 mt-2"
       >
         + Add Item
       </button>
-      <div className="flex justify-end mt-4 gap-4">
-        <button
-          type="button"
-          onClick={addNewQuestion}
-          className="bg-blue-500 text-white px-4 py-2 rounded-md"
-        >
-          + New Question
-        </button>
-        <button
-          type="button"
-          onClick={deleteQuestion}
-          className="bg-red-500 text-white px-4 py-2 rounded-md"
-        >
-          Delete Question
-        </button>
-      </div>
     </div>
   );
 };
