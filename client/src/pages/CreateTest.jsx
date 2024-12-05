@@ -1,8 +1,8 @@
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+
 import Categorize from "../components/Categorize Question/Categorize";
 import Navbar from "../components/Navbar";
 import Sidenav from "../components/Sidenav";
+import Cloze from "../components/Cloze Question/Cloze";
 
 const CreateTest = () => {
   return (
@@ -18,9 +18,12 @@ const CreateTest = () => {
             placeholder="Test title"
             className="sm:w-1/2 mb-5  h-[40px] px-3 border-b border-b-zinc-400 outline-none"
           />
-          <DndProvider backend={HTML5Backend}>
+      
             <Categorize />
-          </DndProvider>
+
+
+            <Cloze />
+      
         </div>
       </div>
     </div>
